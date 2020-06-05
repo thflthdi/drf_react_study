@@ -1,0 +1,14 @@
+
+<form action="", method="get">
+    <input type="text", name='p', value="{{ p }}">
+    <input type="submit">
+</form>
+
+{% for list in search_list %}
+    <h2>{{ list.message }}</h2>
+    {% if list.photo %}
+        <img src="{{ list.photo.url }}" style="width:100px"/>
+    {% else %}
+        no photo
+    {% endif %}
+{% endfor %}
