@@ -22,12 +22,19 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('blog1/', include('blog1.urls')),
     path('instagram/', include('instagram.urls')),
+    path('accoutns/', include('accounts.urls')),
 
 ]
 
-#개발 환경에서 media 파일 서빙
+# 개발 환경에서 media 파일 서빙
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+    import debug_toolbar
+
+    urlpatterns = [
+                      path('__debug__/', include(debug_toolbar.urls)),
+                  ] + urlpatterns
 
 # settings.MEDIA_URL
 # settings.MEDIA_ROOT
