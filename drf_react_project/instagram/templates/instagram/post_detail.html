@@ -1,0 +1,14 @@
+<head>
+
+</head>
+<body>
+
+<h2>{{ post.message }}</h2>
+{% if post.photo %}
+    <img src="{{ post.photo.url }}" style="width:100px"/>
+{% else %}
+    no photo
+{% endif %}
+
+
+</body>

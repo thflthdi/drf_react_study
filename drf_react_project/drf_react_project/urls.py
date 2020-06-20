@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 
+app_name = 'blog1'
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('blog1/', include('blog1.urls')),
