@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'debug_toolbar',
     'accounts',
+    'bootstrap4',
 
 ]
 
@@ -62,7 +63,10 @@ ROOT_URLCONF = 'drf_react_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            # File system Template Loder
+            os.path.join(BASE_DIR, 'drf_react_project', 'templates')
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

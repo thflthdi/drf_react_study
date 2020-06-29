@@ -29,6 +29,7 @@ class CommentAdmin(admin.ModelAdmin):
     pass
 
 
+
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
     pass
