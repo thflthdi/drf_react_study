@@ -1,14 +1,21 @@
-<head>
+{% extends "instagram/layout.html" %}
+{% load bootstrap4 %}
 
-</head>
-<body>
+{% block title %}
+{% endblock title %}
 
-<h2>{{ post.message }}</h2>
-{% if post.photo %}
-    <img src="{{ post.photo.url }}" style="width:100px"/>
-{% else %}
-    no photo
-{% endif %}
+{% block content %}
+    <body>
 
-
-</body>
+    <h2>{{ post.message }}</h2>
+    {% if post.photo %}
+        <img src="{{ post.photo.url }}" style="width:100px"/>
+    {% else %}
+        no photo
+    {% endif %}
+    <hr/>
+    <a href="{% url 'instagram:post_list' %}" class="btn btn-primary">
+        목록
+    </a>
+    </body>
+{% endblock content %}
