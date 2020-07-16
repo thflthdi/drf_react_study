@@ -7,22 +7,33 @@
 {% block content %}
     <body>
 
-    <form action="" , method="get">
-        <input type="text" , name='p' , value="{{ p }}">
+    <form action="" method="get">
+        <input type="text" name='p' value="{{ p }}">
         <input type="submit">
     </form>
 
+    <a href="{% url 'instagram:post_new' %}" class="btn btn-primary btn-block mt-3 bt-3">새 포스팅</a>
+    <br>
     {% for list in post_list %}
-    <h2>
-        <a href="{{ list.get_absolute_url }}">
-            {{ list.pk }} {{ list.message }}
-        </a>
-    </h2>
-    {% if list.photo %}
-    <img src="{{ list.photo.url }}" style="width:100px"/>
-    {% else %}
-    no photo
-    {% endif %}
+    <table class="table table-bordered table-hover">
+        <tr>
+            <td>
+                {{ list.pk }}
+            </td>
+            <td>
+                {{ list.message }}
+            </td>
+            <td>
+                <a href="{{ list.get_absolute_url }}">
+                {% if list.photo %}
+                    <img src="{{ list.photo.url }}" style="width:100px"/>
+                {% else %}
+                    no photo
+                {% endif %}
+                </a>
+            </td>
+        </tr>
+    </table>
     {% endfor %}
 
     {% if is_paginated %}

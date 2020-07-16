@@ -1,19 +1,58 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404
+from django.contrib.messages.context_processors import messages
+from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.decorators import method_decorator
 from django.views.generic import DetailView, ListView, ArchiveIndexView, YearArchiveView
 
 from .models import Post
+from .forms import PostForm
 from django.http import HttpRequest, HttpResponse, Http404
 
 
 # Create your views here.
 
+@login_required
+def post_edit(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if post.author != request.user:
+        messages.error(request, '작성자만 가능하다.')
+        return redirect(post)
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            post = form.save()
+            return redirect(post)
+    else:
+        form = PostForm(instance=post)
+    return render(request, 'instagram/post_form.html', {
+        'form': form,
+    })
+
+
+@login_required
+def post_new(request):
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            return redirect(post)
+    else:
+        form = PostForm()
+    return render(request, 'instagram/post_form.html', {
+        'form': form,
+    })
+
+
 @method_decorator(login_required, name='dispatch')
 class PostListView(ListView):
     model = Post
     paginate_by = 10
+
+
 post_list = PostListView.as_view()
+
 
 # @login_required
 # def post_list(request):
@@ -45,6 +84,7 @@ post_list = PostListView.as_view()
 
 class PostDetailView(DetailView):
     model = Post
+
     # queryset = Post.obects.filter(is_public=True)
 
     def get_queryset(self):
@@ -52,6 +92,7 @@ class PostDetailView(DetailView):
         if not self.request.user.is_authenticated:
             qs = qs.filter(is_public=True)
         return qs
+
 
 post_detail = PostDetailView.as_view()
 

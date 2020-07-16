@@ -1,12 +1,14 @@
 from django.db import models
 from django.conf import settings
+from django.core.validators import MinLengthValidator
 from django.urls import reverse
 
 
 class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     tag_set = models.ManyToManyField('Tag', blank=True)
-    message = models.TextField()
+    message = models.TextField(validators=[
+        MinLengthValidator(3)])
     photo = models.ImageField(blank=True, upload_to='instagram/post/%Y/%m/%d')
     is_public = models.BooleanField(default=False, verbose_name='공개여부')
     created_at = models.DateTimeField(auto_now_add=True)
