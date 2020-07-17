@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from django.urls import reverse_lazy
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -111,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+# LOGOUT_REDIRECT_URL = reverse_lazy('login')
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
@@ -141,3 +143,10 @@ INTERNAL_IPS = [
 ]
 
 AUTH_USER_MODEL = 'auth.User'
+
+from django.contrib.messages import constants as messages_constants
+
+MESSAGE_TAGS = {
+  messages_constants.DEBUG: 'secondary',
+  messages_constants.ERROR: 'danger',
+}
