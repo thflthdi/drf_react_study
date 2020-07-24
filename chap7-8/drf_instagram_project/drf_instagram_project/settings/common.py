@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'accounts',
     'bootstrap4',
+    'django_pydenticon',
+    'instagram',
 ]
 
 MIDDLEWARE = [
