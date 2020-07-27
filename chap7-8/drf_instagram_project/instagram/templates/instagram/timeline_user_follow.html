@@ -1,0 +1,14 @@
+
+<div class="d-flex mb-1">
+    <div class="mr-3">
+        <img src="{{ suggested_user.avatar_url }}" class="rounded-circle" style="width: 24px; height: 24px;"/>
+    </div>
+    <div class="">
+        <a href="{% url 'instagram:user_page' suggested_user.username %}">
+            {{ suggested_user.username }}
+        </a>
+    </div>
+    <div class="ml-auto">
+        <a href="{% url 'user_follow' suggested_user.username %}">follow</a>
+    </div>
+</div>
