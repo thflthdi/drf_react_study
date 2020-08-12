@@ -1,6 +1,8 @@
 import React from 'react';
-import { Button } from 'antd';
+// import { Button } from 'antd';
 import PropTypes from 'prop-types';
+import Profile from 'Profile';
+import Message from 'Message';
 import Counter, { Counter1 } from 'Counter';
 import ThemedButton from 'ThemedButton';
 import 'App.css';
@@ -167,9 +169,13 @@ class App extends React.Component {
           postId 변경
         </button>
         <AppCounter />
+        <hr />
         <Counter1 />
         <Counter1 color="green" />
         <Counter1 color={'blue'} />
+        <hr />
+        <Profile />
+        <Message />
       </div>
     );
   }
