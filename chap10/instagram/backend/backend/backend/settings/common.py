@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'instagram',
     'accounts',
+    'django_pydenticon'
 ]
 
 MIDDLEWARE = [
@@ -140,6 +141,6 @@ JWT_AUTH = {
     'JWT_SECRET_KEY': SECRET_KEY,
     'JWT_ALGORITHM': 'HS256',
     'JWT_ALLOW_REFRESH': False,
-    'JWT_EXPIRATION_DELTA': timedelta(seconds=300),
+    'JWT_EXPIRATION_DELTA': timedelta(seconds=3000),
     'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=7),
 }
