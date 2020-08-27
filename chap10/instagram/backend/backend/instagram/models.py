@@ -36,6 +36,9 @@ class Post(TimestampModel):
     def is_like_user(self, user):
         return self.like_user_set.filter(pk=user.pk).exists()
 
+    class Meta:
+        ordering = ['-id']
+
 
 class Comment(TimestampModel):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

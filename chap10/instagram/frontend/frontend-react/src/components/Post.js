@@ -1,24 +1,47 @@
 import React from "react";
-import { Card, Avatar } from "antd";
-import { UserOutlined, HeartFilled } from "@ant-design/icons";
+import { Avatar, Card, Comment, Tooltip } from "antd";
+import { HeartOutlined, HeartTwoTone, UserOutlined } from "@ant-design/icons";
 import "./Post.scss";
-function Post({ post }) {
-  const { caption, location, photo } = post;
+import { useAppContext } from "store";
+import CommentList from "./CommentList";
+
+function Post({ post, handleLike }) {
+  const { author, caption, location, photo, tag_set, is_like } = post;
+  const { username, name, avatar_url } = author;
+
   return (
     <div className="post">
       <Card
         hoverable
         cover={<img src={photo} alt={caption} />}
-        actions={[<HeartFilled />]}
+        actions={[
+          is_like ? (
+            <HeartTwoTone
+              twoToneColor="#eb2f96"
+              onClick={() => handleLike({ post, isLike: false })}
+            />
+          ) : (
+            <HeartOutlined onClick={() => handleLike({ post, isLike: true })} />
+          ),
+        ]}
       >
         <Card.Meta
-          avatar={<Avatar size="large" icon={<UserOutlined />} />}
+          avatar={
+            <Avatar
+              size="large"
+              icon={<img src={avatar_url} alt={username} />}
+            />
+          }
           title={location}
           description={caption}
-        ></Card.Meta>
+          style={{ marginBottom: "0.5em" }}
+        />
+
+        <CommentList post={post} />
       </Card>
+
       {/* <img src={photo} alt={caption} style={{ width: "100px" }} />
-      {caption},{location} */}
+      {caption}, {location} */}
     </div>
   );
 }

@@ -1,35 +1,60 @@
 import React, { useEffect, useState } from "react";
-import Axios from "axios";
+import { Alert } from "antd";
+import { useAxios, axiosInstance } from "api";
 import Post from "./Post";
 import { useAppContext } from "store";
-import { Alert } from "antd";
-
-const apiUrl = "http://localhost:8000/posts/";
 
 function PostList() {
-  const [postList, setPostList] = useState([]);
   const {
     store: { jwtToken },
-    dispatch,
   } = useAppContext();
 
+  const [postList, setPostList] = useState([]);
+
+  const headers = { Authorization: `JWT ${jwtToken}` };
+
+  const [{ data: originPostList, loading, error }, refetch] = useAxios({
+    url: "/posts/",
+    headers,
+  });
+
   useEffect(() => {
-    const headers = { Authorization: `JWT ${jwtToken}` };
-    Axios.get(apiUrl, { headers })
-      .then((response) => {
-        const { data } = response;
-        setPostList(data);
-      })
-      .catch((error) => {});
-    console.log("mounted");
-  }, []);
+    setPostList(originPostList);
+  }, [originPostList]);
+
+  const handleLike = async ({ post, isLike }) => {
+    const apiUrl = `/posts/${post.id}/like/`;
+    const method = isLike ? "POST" : "DELETE";
+
+    try {
+      const response = await axiosInstance({
+        url: apiUrl,
+        method,
+        headers,
+      });
+      console.log("response :", response);
+
+      setPostList((prevList) => {
+        return prevList.map((currentPost) =>
+          currentPost === post
+            ? { ...currentPost, is_like: isLike }
+            : currentPost
+        );
+      });
+    } catch (error) {
+      console.log("error :", error);
+    }
+  };
 
   return (
     <div>
-      {postList.length === 0 && <Alert type="warning" message="not posting" />}
-      {postList.map((post) => {
-        return <Post post={post} key={post.id} />;
-      })}
+      {postList && postList.length === 0 && (
+        <Alert type="warning" message="포스팅이 없습니다. :-(" />
+      )}
+      {postList &&
+        postList.map((post) => (
+          <Post post={post} key={post.id} handleLike={handleLike} />
+        ))}
     </div>
   );
 }
